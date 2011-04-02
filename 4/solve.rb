@@ -1,9 +1,8 @@
 def palindromic?(n)
-  s = n.to_s
-  s_size = s.size
-  start = (s.size % 2 == 0) ? s_size/2: s_size/2 + 1
-  s[0..s_size/2-1] == s[start..-1].reverse
+  n_s = n.to_s
+  n_s == n_s.reverse
 end
+
 def solve
   max = 0
   999.downto(100).each do |a|
@@ -16,5 +15,5 @@ def solve
   max
 end
 
-puts solve
 
+puts solve
