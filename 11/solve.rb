@@ -22,24 +22,25 @@ GRID ="08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 GRID_ARRAY = GRID.split("\n").map{|e| e.split(/ /).map{|c| c.to_i}}
 
 def max_at_col_row(row, col, options={})
-  row_incr, col_incr, break_condition = case options[:type]
-         when :up
-           [-1, 0, lambda {row < 0}]
-         when :down
-           [1, 0, lambda {  row >= GRID_ARRAY.size}]
-         when :left
-           [0, -1, lambda{ col < 0}]
-         when :right
-           [0, 1, lambda{col >= GRID_ARRAY.size}]
-         when :up_right
-           [-1, 1, lambda {row < 0 || col >= GRID_ARRAY.size}]
-         when :up_left
-           [-1, -1, lambda{row < 0 || col < 0}]
-         when :down_left
-           [1, -1, lambda{row >= GRID_ARRAY.size || col < 0}]
-         when :down_right
-           [1, 1, lambda{row >= GRID_ARRAY.size || col >= GRID_ARRAY.size}]
-         end
+  row_incr, col_incr, break_condition =
+    case options[:type]
+    when :up
+      [-1, 0, lambda {row < 0}]
+    when :down
+      [1, 0, lambda {  row >= GRID_ARRAY.size}]
+    when :left
+      [0, -1, lambda{ col < 0}]
+    when :right
+      [0, 1, lambda{col >= GRID_ARRAY.size}]
+    when :up_right
+      [-1, 1, lambda {row < 0 || col >= GRID_ARRAY.size}]
+    when :up_left
+      [-1, -1, lambda{row < 0 || col < 0}]
+    when :down_left
+      [1, -1, lambda{row >= GRID_ARRAY.size || col < 0}]
+    when :down_right
+      [1, 1, lambda{row >= GRID_ARRAY.size || col >= GRID_ARRAY.size}]
+    end
 
   product = 1
   4.times do
@@ -51,19 +52,18 @@ def max_at_col_row(row, col, options={})
   product
 end
 
+
 def solve
   directions = [:right, :left, :up, :down, :up_left, :up_right, :down_left, :down_right]
-  max = 0
-  GRID_ARRAY.each_with_index do |r, r_i|
-    r.each_index do |c_i|
-      args = [r_i, c_i]
-      product = directions.map{|t| max_at_col_row(*args, :type => t)}.max
-      max = product if product > max
+  GRID_ARRAY.each_with_index.inject(0) do |max, (r, r_i)|
+    r.each_index do |c_i|  
+    args = [r_i, c_i]
+    product = directions.map{|t| max_at_col_row(*args, :type => t)}.max
+    max = product if product > max
     end
-  end
   max
+  end
 end
 
+
 puts solve
-
-
