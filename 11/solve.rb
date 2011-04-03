@@ -55,7 +55,7 @@ def solve
   directions = [:right, :left, :up, :down, :up_left, :up_right, :down_left, :down_right]
   max = 0
   GRID_ARRAY.each_with_index do |r, r_i|
-    r.each_with_index do |c, c_i|
+    r.each_index do |c_i|
       args = [r_i, c_i]
       product = directions.map{|t| max_at_col_row(*args, :type => t)}.max
       max = product if product > max
